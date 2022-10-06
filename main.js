@@ -46,6 +46,11 @@ const agregarCarrito = (id) => {
         carrito.push(element)
     }
     actualizarCarrito()
+    Toastify({
+        text:`Producto agregado`,
+        duration: 1000,
+    }).showToast()
+    
 }
 
 
@@ -79,12 +84,43 @@ const btn = (id) => {
     carrito.splice(indice, 1)
     actualizarCarrito()
     calcular();
+    
+    Toastify({
+        text:`Producto eliminado del carrito`,
+        duration: 3000,
+        style: {
+             background: "#b60d0d",           
+        }
+    }).showToast();
+    
 }
 
 vaciarCarrito.addEventListener("click", () => {
-    carrito.splice(0, carrito.length)
-    actualizarCarrito()
-    calcular()
+    Swal.fire({
+        title:"¿Quieres vaciar el carrito?",
+        icon:"warning",
+        confirmButtonText:"Vaciar",
+
+        showCancelButton:true,
+        cancelButtonText:"Cancelar",
+    }).then((result) => {
+        if(result.isConfirmed){
+            Toastify({
+                text:`Carrito Vaciado`,
+                duration: 3000,
+                position:`right`,
+                gravity:`top`,
+                background: `warning`,
+            }).showToast()
+            carrito.splice(0, carrito.length)
+            actualizarCarrito()
+            calcular()
+            
+        }
+    })
+    
+    
+    
 })
 
 
@@ -100,6 +136,42 @@ const calcular = () => {
 
 const buy = (id) => {
     const element = carrito.find((element) => element.id === id)
-    alert("Compra Realizada : \n" + element.nombre + "\n $" + element.precio+ "\n" + element.cantidad + " unidad/es" )
+    Swal.fire({
+        title:`Compra Realizada`,
+        icon:`success`,
+        confirmButtonText:`Confirmar`,
+        width: `50%`,
+        background:`#14830a`,
+        timer: 10000,
+    })
+    btn(element.id)
 
+}
+
+
+
+
+
+    // contenedorCarrito.innerHTML = "";
+    // const divCarrito = document.createElement("div")
+    //     divCarrito.classList.add("card", "d-flex", "col-l-4", "m-2");
+    //     divCarrito.innerHTML = `
+    //                         <div style="background-color: rgb(25, 140, 50);">
+    //                             <div class="card-body" style="width: 18rem">
+    //                                 <h3 class="card-title"> ${element.nombre} </h3>
+    //                                 <p class="card-text"> $${element.precio} </p>
+    //                                 <p>Cantidad: ${element.cantidad} </p>
+    //                                 <button onclick ="buy(${element.id})" class="btn btn-outline-success"> Comprar </button>
+    //                                 <button onclick ="btn(${element.id})" class="btn btn-outline-danger"> Eliminar </button>           
+    //                             </div>
+    //                         </div>`;
+    //     contenedorCarrito.appendChild(divCarrito)
+
+    for(let letra of "hola"){
+            console.log(letra); 
+}
+    for(let letra of "Nacho"){
+    setTimeout( () =>{
+        console.log(letra);
+    },2000)
 }
